@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import io
 
 
 #Parameters
@@ -21,19 +22,26 @@ init_link = "https://www.nba.com/stats/leaders?Season=2022-23"
 driver = webdriver.Chrome()
 driver.get(init_link)
 
-time.sleep(5)
+time.sleep(1)
 cookie_accept = driver.find_element(By.CSS_SELECTOR, "#onetrust-accept-btn-handler")
 cookie_accept.click()
-time.sleep(10)
+time.sleep(1)
 
 
-soup = BeautifulSoup(driver.content, 'html.parser')
+page_source = driver.page_source
+
+soup = BeautifulSoup(page_source, 'html.parser')
 
 table = soup.find('table', attrs={'class':'Crom_table__p1iZz'})
 
 if table:
-    df = pd.read_html(str(table))[0]
+    df = pd.read_html(io.StringIO(str(table)))[0]
 
     df.to_csv('NBA_Stats.csv', index=False)
+
+    print("Données sauvegardées.")
 else:
-    print("No table found")
+    print("Erreur lors de la récupération des données.")
+
+
+driver.quit()
