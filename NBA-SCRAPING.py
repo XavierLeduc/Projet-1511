@@ -13,7 +13,7 @@ import seaborn as sns
 
 #Parameters
 init_link = "https://www.nba.com/stats/leaders?Season=2022-23"
-waiting = time.sleep(1)
+waiting = time.sleep(5)
 
 #CSV config
 
