@@ -12,14 +12,10 @@ import seaborn as sns
 
 
 #Parameters
-init_link = "https://www.nba.com/stats/players"
+init_link = "https://www.nba.com/stats/leaders?Season=2022-23"
 waiting = time.sleep(1)
 
-
-
 #CSV config
-
-
 
 #Start of the program
 driver = webdriver.Chrome()
