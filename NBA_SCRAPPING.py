@@ -25,3 +25,4 @@ time.sleep(5)
 cookie_accept = driver.find_element(By.CSS_SELECTOR, "#onetrust-accept-btn-handler")
 cookie_accept.click()
 time.sleep(10)
+
