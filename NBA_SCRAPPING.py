@@ -70,5 +70,14 @@ print(df.describe())
 plt.figure(figsize=(20,10))
 plt.hist(df['PTS'], bins=70)
 plt.title("Distribution des points marqués par match")
+plt.xlabel("Points marqués")
+plt.ylabel("Nombre de joueurs")
+plt.show()
+
+
+sns.boxenplot(x="TEAM", y="PTS", data=df)
+plt.title("Distribution des points marqués par équipe")
+plt.xlabel("Equipe")
+plt.ylabel("Points marqués")
 plt.show()
 
