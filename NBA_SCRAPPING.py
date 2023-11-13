@@ -13,7 +13,7 @@ import seaborn as sns
 
 #Parameters
 init_link = "https://www.nba.com/stats/leaders?Season=2022-23"
-waiting = time.sleep(5)
+
 
 #CSV config
 
@@ -21,7 +21,7 @@ waiting = time.sleep(5)
 driver = webdriver.Chrome()
 driver.get(init_link)
 
-waiting
+time.sleep(5)
 cookie_accept = driver.find_element(By.CSS_SELECTOR, "#onetrust-accept-btn-handler")
 cookie_accept.click()
-waiting
+time.sleep(10)
