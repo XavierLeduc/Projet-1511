@@ -38,7 +38,7 @@ def get_data(link):
     if table:
         df = pd.read_html(io.StringIO(str(table)))[0]
 
-        df.to_csv('NBA_Stats.csv', index=False)
+        df.to_csv('NBA_Stats_22-23.csv', index=False)
 
         print("Données sauvegardées.")
     else:
