@@ -59,8 +59,21 @@ def get_data_per_year_per_player():
         i += 1
 
 
-get_data_per_year_per_player()
 
+
+def assemble_all_seasons():
+    i = 0
+    for year in seasons:
+        df = pd.read_csv('NBA_Stats_{}.csv'.format(seasons[i]))
+        df['SEASON'] = seasons[i]
+        if i == 0:
+            df_all = df
+        else:
+            df_all = pd.concat([df_all, df])
+        i += 1
+    df_all.to_csv('NBA_Stats_All_Seasons.csv', index=False)
+
+assemble_all_seasons()
 
 #df = get_data(init_link)
 
