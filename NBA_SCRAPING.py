@@ -15,11 +15,6 @@ import io
 #Parameters
 seasons = ["2022-23", "2021-22", "2020-21", "2019-20", "2018-19", "2017-18", "2016-17", "2015-16", "2014-15", "2013-14", "2012-13"]
 
-
-
-
-
-
 #Start of the program
 def get_data_per_year_per_player():
     i = 0
