@@ -75,7 +75,7 @@ def assemble_all_seasons():
     df_all = df_all.drop(columns=['#'])
     df_all.to_csv('NBA_Stats_All_Seasons.csv', index=False)
 
-assemble_all_seasons()
+#assemble_all_seasons()
 
 #df = get_data(init_link)
 
