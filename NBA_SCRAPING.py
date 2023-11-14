@@ -9,6 +9,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+
 
 
 
@@ -92,7 +97,39 @@ def pearson_correlation():
         sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
         plt.show()
 
-pearson_correlation()
+
+#pearson_correlation()
+
+
+def analysis_shooting_percentages():
+    df = pd.read_csv('NBA_Stats_All_Seasons.csv')
+    features = ['PTS', 'FGM', 'FGA', '3PM', '3PA', 'FTM', 'FTA', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV']
+    target = ['PTS']
+
+    X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.2, random_state=42)
+
+    model = LinearRegression()
+
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+
+    mse = mean_squared_error(y_test, y_pred)
+    #r2 = r2_score(y_test, y_pred)
+
+    print(f'Mean Squared Error: {mse}')
+    #print(f'R-squared: {r2}')
+
+
+    plt.scatter(y_test, y_pred)
+    plt.xlabel("Vraies valeurs")
+    plt.ylabel("Prédictions")
+    plt.title("Régression linéaire pour les tirs tentés")
+    plt.show()
+
+analysis_shooting_percentages()
+
+
 
 
 
