@@ -9,7 +9,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-from selenium.webdriver.support.ui import WebDriverWait
+
 
 
 #Parameters
