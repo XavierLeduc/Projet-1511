@@ -59,6 +59,40 @@ def get_data_per_year_per_player():
         i += 1
 
 
+def get_advanced_data():
+    i = 0
+    for year in seasons:
+        link = "https://www.nba.com/stats/players/traditional?PerMode=Totals&sort=PTS&dir=-1&Season={}".format(seasons[i])
+        driver = webdriver.Chrome()
+        driver.get(link)
+
+        cookie_accept = driver.find_element(By.CSS_SELECTOR, "#onetrust-accept-btn-handler")
+        cookie_accept.click()
+        time.sleep(10)
+
+        dropdown_div = driver.find_element(By.CSS_SELECTOR, ".Pagination_pageDropdown__KgjBU")
+        dropdown_element = Select(dropdown_div.find_element(By.CSS_SELECTOR, ".DropDown_select__4pIg9"))
+        dropdown_element.select_by_visible_text("All")
+
+        page_source = driver.page_source
+
+        soup = BeautifulSoup(page_source, 'html.parser')
+        
+        table = soup.find('table', attrs={'class':'Crom_table__p1iZz'})
+
+        if table:
+            df = pd.read_html(io.StringIO(str(table)))[0]
+
+            df.to_csv('NBA_Stats_Advanced_{}.csv'.format(seasons[i]), index=False)
+
+
+            print("Données sauvegardées.")
+        else:
+            print("Erreur lors de la récupération des données.")
+        
+        time.sleep(10)
+        i += 1
+
 
 
 def assemble_all_seasons():
@@ -135,7 +169,8 @@ def analysis_shooting_percentages(df):
 
 
 df = pd.read_csv('NBA_Stats_2022-23.csv')
-analysis_shooting_percentages(df)
+
+
 
 
 
