@@ -75,20 +75,26 @@ def assemble_all_seasons():
     df_all = df_all.drop(columns=['#'])
     df_all.to_csv('NBA_Stats_All_Seasons.csv', index=False)
 
-#assemble_all_seasons()
-
-#df = get_data(init_link)
 
 
 
 
-#print(df.describe())
+#### Modèle de prédiction ####
 
 
 
-def pearson_correlation():
-    data_to_analyse = ['FG%', '3P%', 'FT%']
-    df = pd.read_csv('NBA_Stats_All_Seasons.csv')
+
+def data_cleaning(df):
+    #supprime le noms des joueurs
+    df = df.drop(columns=['Player'])
+    #supprime les lignes vides
+    df = df.dropna()
+    return df
+
+
+def pearson_correlation(df):
+    df = data_cleaning(df)
+    data_to_analyse = ['FGA', '3PA', 'FTA']
     for data in data_to_analyse:
         pearson_correlation = np.corrcoef(df['PTS'], df[data])[0, 1]
         print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
@@ -98,15 +104,14 @@ def pearson_correlation():
         plt.show()
 
 
-#pearson_correlation()#
 
 
-def analysis_shooting_percentages():
-    df = pd.read_csv('NBA_Stats_All_Seasons.csv')
-    features = ['PTS', 'FGM', 'FGA', '3PM', '3PA', 'FTM', 'FTA', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV']
-    target = ['EFF']
+def analysis_shooting_percentages(df):
+    df = data_cleaning(df)
+    features = ['FGM', 'FGA', '3PM', '3PA', 'FTM', 'FTA', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV']
+    target = ['PTS']
 
-    X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.3, random_state=42)
 
     model = LinearRegression()
 
@@ -115,10 +120,10 @@ def analysis_shooting_percentages():
     y_pred = model.predict(X_test)
 
     mse = mean_squared_error(y_test, y_pred)
-    #r2 = r2_score(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
 
     print(f'Mean Squared Error: {mse}')
-    #print(f'R-squared: {r2}')
+    print(f'R-squared: {r2}')
 
 
     plt.scatter(y_test, y_pred)
@@ -127,7 +132,10 @@ def analysis_shooting_percentages():
     plt.title("Régression linéaire pour les tirs tentés")
     plt.show()
 
-analysis_shooting_percentages()
+
+
+df = pd.read_csv('NBA_Stats_2022-23.csv')
+analysis_shooting_percentages(df)
 
 
 
