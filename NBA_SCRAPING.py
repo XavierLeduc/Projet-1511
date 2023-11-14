@@ -74,23 +74,21 @@ def assemble_all_seasons():
 
 #df = get_data(init_link)
 
-df = pd.read_csv('NBA_Stats_22-23.csv')
 
 
-print(df.describe())
+
+#print(df.describe())
 
 
-#plt.figure(figsize=(20,10))
-#plt.hist(df['PTS'], bins=70)
-#plt.title("Distribution des points marqués par match")
-#plt.xlabel("Points marqués")
-#plt.ylabel("Nombre de joueurs")
-#plt.show()
+
+def pearson_correlation():
+    data_to_analyse = ['FG%', '3P%', 'FT%']
+    df = pd.read_csv('NBA_Stats_All_Seasons.csv')
+    for data in data_to_analyse:
+        pearson_correlation = np.corrcoef(df['PTS'], df[data])[0, 1]
+        print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
+
+pearson_correlation()
 
 
-#sns.boxenplot(x="TEAM", y="PTS", data=df)
-#plt.title("Distribution des points marqués par équipe")
-#plt.xlabel("Equipe")
-#plt.ylabel("Points marqués")
-#plt.show()
 
