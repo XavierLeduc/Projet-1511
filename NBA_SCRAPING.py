@@ -89,7 +89,7 @@ def pearson_correlation():
         print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
         correlation_matrix = np.corrcoef(df['PTS'], df[data])
         plt.figure(figsize=(10,10))
-        sns.heatmap(correlation_matrix, annot=True)
+        sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
         plt.show()
 
 pearson_correlation()
