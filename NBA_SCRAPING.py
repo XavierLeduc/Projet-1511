@@ -12,6 +12,10 @@ import io
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report
 
 
 
@@ -112,6 +116,28 @@ def assemble_all_seasons():
 
 
 
+### Classifications des joueurs ###
+def classification_joueurs(df):
+    features = df[['Age', 'GP', 'W', 'L', 'Min', 'PTS', 'FG%', '3P%', 'FT%', 'REB', 'AST', 'STL', 'BLK']]
+    target = ['Player']
+
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    knn_model = KNeighborsClassifier(n_neighbors=3)
+
+    knn_model.fit(X_train, y_train)
+    predictions = knn_model.predict(X_test)
+    accuracy = accuracy_score(y_test, predictions)
+    report = classification_report(y_test, predictions)
+
+    print(f"Accuracy: {accuracy}")
+    print("Classification Report:\n", report)
+
+
 
 #### Modèle de prédiction ####
 
@@ -168,7 +194,8 @@ def analysis_shooting_percentages(df):
 
 
 
-df = pd.read_csv('NBA_Stats_2022-23.csv')
+df = pd.read_csv('NBA_Stats_Advanced_2022-23.csv')
+classification_joueurs(df)
 
 
 
