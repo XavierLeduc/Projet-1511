@@ -71,6 +71,8 @@ def assemble_all_seasons():
         else:
             df_all = pd.concat([df_all, df])
         i += 1
+    #fais un to_csv en supprimant la colonne "#"
+    df_all = df_all.drop(columns=['#'])
     df_all.to_csv('NBA_Stats_All_Seasons.csv', index=False)
 
 assemble_all_seasons()
