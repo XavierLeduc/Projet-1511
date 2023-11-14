@@ -104,7 +104,7 @@ def pearson_correlation():
 def analysis_shooting_percentages():
     df = pd.read_csv('NBA_Stats_All_Seasons.csv')
     features = ['PTS', 'FGM', 'FGA', '3PM', '3PA', 'FTM', 'FTA', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV']
-    target = ['PTS']
+    target = ['EFF']
 
     X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.2, random_state=42)
 
