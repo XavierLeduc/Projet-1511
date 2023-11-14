@@ -26,7 +26,6 @@ def get_data(link):
     cookie_accept.click()
     time.sleep(10)
 
-    #Selection de tous les joueurs
     dropdown_div = driver.find_element(By.CSS_SELECTOR, ".Pagination_pageDropdown__KgjBU")
     dropdown_element = Select(dropdown_div.find_element(By.CSS_SELECTOR, ".DropDown_select__4pIg9"))
     dropdown_element.select_by_visible_text("All")
