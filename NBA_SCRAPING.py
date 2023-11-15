@@ -191,7 +191,15 @@ def graphiques(df):
     plt.title("Répartition des joueurs selon leur niveau.")
     plt.show()
 
+    sns.boxplot(x='Level', y='PTS', data=df_classification)
+    plt.show()
+
     pearson_correlation(df)
+
+
+
+
+
 
     
 
@@ -249,8 +257,11 @@ def pearson_correlation(df):
         pearson_correlation = np.corrcoef(df['PTS'], df[data])[0, 1]
         print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
 
-    sns.heatmap(df.corr(), annot=True, color="warm")
-    plt.show()
+        sns.heatmap(df[['PTS', data]].corr(), annot=True, fmt=".2f", cmap="coolwarm")
+        plt.title("Heatmap de la corrélation entre PTS et {}".format(data))
+        plt.show()
+
+
 
 
 
