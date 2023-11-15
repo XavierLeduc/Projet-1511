@@ -2,10 +2,16 @@ import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
 
+
+#SCRAPING
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
+
+
+
+#DATA
 import time
 import pandas as pd
 import numpy as np
@@ -13,11 +19,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
+
+
+
+#SKLEARN
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
@@ -136,58 +145,38 @@ assemble_all_seasons_advanced()
 
 ### Classifications des joueurs ###
 def classification_joueurs(df):
-    if len(df) == 0:
-        print("Error: No samples in the data.")
-        return
+    print(df['PTS'].describe())
+    df['Level'] = pd.cut(df['PTS'], bins=[0, 210, 2000, float('inf')], labels=['Faible', 'Moyen', 'Élevé'])
 
-    features = df[['Age', 'GP', 'W', 'L', 'Min', 'PTS', 'FG%', '3P%', 'FT%', 'REB', 'AST', 'STL', 'BLK']]
-    target = df['Player']
+    features = df[['PTS', 'AST', 'REB']]
+    target = df['Level']
 
-    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.3, random_state=42)
+    label_encoder = LabelEncoder()
+    target = label_encoder.fit_transform(target)
 
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    scaled_features = scaler.fit_transform(features)
 
-    knn_model = KNeighborsClassifier(n_neighbors=3)
+    X_train, X_test, y_train, y_test = train_test_split(scaled_features, target, test_size=0.3, random_state=42)
+
+    n_neighbors = 3
+    knn_model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     knn_model.fit(X_train, y_train)
+
     predictions = knn_model.predict(X_test)
+
     accuracy = accuracy_score(y_test, predictions)
-    report = classification_report(y_test, predictions, zero_division=1)
+    classification_report_output = classification_report(y_test, predictions)
 
-    print(f"Accuracy: {accuracy}")
-    print("Classification Report:\n", report)
-    
+    print("Accuracy:", accuracy)
+    print("Classification Report:\n", classification_report_output)
 
-    report_dict = classification_report(y_test, predictions, output_dict=True)
-    df_report = pd.DataFrame(report_dict).T
-
-
-    seuil_fort = 0.8
-    seuil_faible = 0.5
+    print("Joueurs avec leur niveau :")
+    print(df[['Player', 'Level']])
 
 
-    df_report['Groupe'] = pd.cut(df_report['precision'], bins=[-1, seuil_faible, seuil_fort, 1], labels=['Faible', 'Moyen', 'Fort'])
 
-
-    df_report['Groupe'] = pd.Categorical(df_report['Groupe'])
-
-
-    colors = df_report['Groupe'].cat.codes
-
-
-    plt.figure(figsize=(10, 6))
-    scatter = plt.scatter(df_report.index, df_report['precision'], c=colors, cmap='viridis', s=100)
-
-    plt.legend(scatter.legend_elements(), title='Groupes')
-
-
-    plt.xlabel('Classes')
-    plt.ylabel('Précision')
-    plt.title('Précision par classe avec groupes')
-
-    plt.show()
 
 
 
@@ -244,7 +233,7 @@ def analysis_shooting_percentages(df):
 
 
 def assembly_by_player(df):
-    df = df.drop(['Unnamed: 0', 'Team', 'Age', 'GP RANK', 'W RANK', 'L RANK', 'MIN RANK', 'PTS RANK', 'FGM RANK', 'FGA RANK',
+    df = df.drop(['Unnamed: 0', 'Team', 'GP RANK', 'W RANK', 'L RANK', 'MIN RANK', 'PTS RANK', 'FGM RANK', 'FGA RANK',
                 'FG% RANK', '3PM RANK', '3PA RANK', '3P% RANK', 'FTM RANK', 'FTA RANK', 'FT% RANK', 'OREB RANK', 'DREB RANK',
                 'REB RANK', 'AST RANK', 'TOV RANK', 'STL RANK', 'BLK RANK', 'PF RANK', 'FP RANK', 'DD2 RANK', 'TD3 RANK', '+/- RANK', 'SEASON'],
                 axis=1)
@@ -258,9 +247,9 @@ def assembly_by_player(df):
 
 
 df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
-#classification_joueurs(df)
-pearson_correlation(df)
-analysis_shooting_percentages(df)
+classification_joueurs(df)
+#pearson_correlation(df)
+#analysis_shooting_percentages(df)
 #assembly_by_player(df)
 
 
