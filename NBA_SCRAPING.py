@@ -244,10 +244,27 @@ def analysis_shooting_percentages(df):
 
 
 
+
+
+def assembly_by_player(df):
+    df = df.drop(['Unnamed: 0', 'Team', 'Age', 'GP RANK', 'W RANK', 'L RANK', 'MIN RANK', 'PTS RANK', 'FGM RANK', 'FGA RANK',
+                'FG% RANK', '3PM RANK', '3PA RANK', '3P% RANK', 'FTM RANK', 'FTA RANK', 'FT% RANK', 'OREB RANK', 'DREB RANK',
+                'REB RANK', 'AST RANK', 'TOV RANK', 'STL RANK', 'BLK RANK', 'PF RANK', 'FP RANK', 'DD2 RANK', 'TD3 RANK', '+/- RANK', 'SEASON'],
+                axis=1)
+
+    df_avg = df.groupby('Player').mean().reset_index()
+
+    df_avg.to_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv', index=False)
+
+
+
+
+
 df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
 #classification_joueurs(df)
-pearson_correlation(df)
-analysis_shooting_percentages(df)
+#pearson_correlation(df)
+#analysis_shooting_percentages(df)
+assembly_by_player(df)
 
 
 
