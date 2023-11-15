@@ -172,7 +172,10 @@ def classification_joueurs(df):
     print("Accuracy:", accuracy)
     print("Classification Report:\n", classification_report_output)
 
-    df.to_csv('Clasification_Players.csv', index=False)
+
+    selected_columns = ['Player', 'PTS', 'Level']
+    df_selected = df[selected_columns]
+    df_selected.to_csv('Classification_Players.csv', index=False)
 
     print("Fichier CSV enregistré avec succès.")
 
