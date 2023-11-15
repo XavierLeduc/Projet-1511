@@ -271,6 +271,6 @@ def analysis_shooting_percentages(df):
 
 
 
-df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
+df= pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
 
 menu()
