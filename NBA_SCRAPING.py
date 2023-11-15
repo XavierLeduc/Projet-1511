@@ -158,9 +158,20 @@ def classification_joueurs(df):
 
     print(f"Accuracy: {accuracy}")
     print("Classification Report:\n", report)
-    #affiche les 10 meilleurs joueurs
-    print("Les 10 meilleurs joueurs sont :")
-    print(df.sort_values(by=['PTS'], ascending=False).head(10))
+    
+    report_dict = classification_report(y_test, predictions, output_dict=True)
+
+    # Ajouter également l'accuracy au dictionnaire
+    report_dict['accuracy'] = accuracy_score(y_test, predictions)
+
+    # Créer un DataFrame à partir du dictionnaire
+    df_report = pd.DataFrame(report_dict)
+
+    # Transposer le DataFrame pour avoir les classes en lignes et les métriques en colonnes
+    df_report = df_report.T
+
+    # Sauvegarder le DataFrame dans un fichier CSV
+    df_report.to_csv('classification_report.csv', index=True)
 
 
 
