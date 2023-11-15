@@ -1,3 +1,5 @@
+#Xavier LEDUC @2023
+
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -255,14 +257,3 @@ classification_joueurs(df)
 #pearson_correlation(df)
 #analysis_shooting_percentages(df)
 #assembly_by_player(df)
-
-
-
-
-
-
-
-
-
-
-
