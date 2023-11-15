@@ -192,12 +192,6 @@ def classification_joueurs(df):
 
     print("Fichier CSV enregistré avec succès.")
 
-
-
-
-
-
-
 #### Modèle de prédiction ####
 
 def data_cleaning(df):
@@ -244,16 +238,8 @@ def analysis_shooting_percentages(df):
 
 
 
-
-
-
-
-
-
-
-
 df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
-classification_joueurs(df)
+#classification_joueurs(df)
 #pearson_correlation(df)
 #analysis_shooting_percentages(df)
 #assembly_by_player(df)
