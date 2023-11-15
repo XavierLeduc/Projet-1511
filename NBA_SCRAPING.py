@@ -159,19 +159,35 @@ def classification_joueurs(df):
     print(f"Accuracy: {accuracy}")
     print("Classification Report:\n", report)
     
+
     report_dict = classification_report(y_test, predictions, output_dict=True)
+    df_report = pd.DataFrame(report_dict).T
 
-    # Ajouter également l'accuracy au dictionnaire
-    report_dict['accuracy'] = accuracy_score(y_test, predictions)
 
-    # Créer un DataFrame à partir du dictionnaire
-    df_report = pd.DataFrame(report_dict)
+    seuil_fort = 0.8
+    seuil_faible = 0.5
 
-    # Transposer le DataFrame pour avoir les classes en lignes et les métriques en colonnes
-    df_report = df_report.T
 
-    # Sauvegarder le DataFrame dans un fichier CSV
-    df_report.to_csv('classification_report.csv', index=True)
+    df_report['Groupe'] = pd.cut(df_report['precision'], bins=[-1, seuil_faible, seuil_fort, 1], labels=['Faible', 'Moyen', 'Fort'])
+
+
+    df_report['Groupe'] = pd.Categorical(df_report['Groupe'])
+
+
+    colors = df_report['Groupe'].cat.codes
+
+
+    plt.figure(figsize=(10, 6))
+    scatter = plt.scatter(df_report.index, df_report['precision'], c=colors, cmap='viridis', s=100)
+
+    plt.legend(scatter.legend_elements(), title='Groupes')
+
+
+    plt.xlabel('Classes')
+    plt.ylabel('Précision')
+    plt.title('Précision par classe avec groupes')
+
+    plt.show()
 
 
 
@@ -232,7 +248,9 @@ def analysis_shooting_percentages(df):
 
 
 df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
-classification_joueurs(df)
+#classification_joueurs(df)
+
+
 
 
 
