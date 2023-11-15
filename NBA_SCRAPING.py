@@ -1,3 +1,7 @@
+import os
+os.system('cls' if os.name == 'nt' else 'clear')
+
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -113,15 +117,33 @@ def assemble_all_seasons():
     df_all = df_all.drop(columns=['#'])
     df_all.to_csv('NBA_Stats_All_Seasons.csv', index=False)
 
+def assemble_all_seasons_advanced():
+    i = 0
+    for year in seasons:
+        df = pd.read_csv('NBA_Stats_Advanced_{}.csv'.format(seasons[i]))
+        df['SEASON'] = seasons[i]
+        if i == 0:
+            df_all = df
+        else:
+            df_all = pd.concat([df_all, df])
+        i += 1
+    df_all.to_csv('NBA_Stats_Advanced_All_Seasons.csv', index=False)
+
+assemble_all_seasons_advanced()
+
 
 
 
 ### Classifications des joueurs ###
 def classification_joueurs(df):
-    features = df[['Age', 'GP', 'W', 'L', 'Min', 'PTS', 'FG%', '3P%', 'FT%', 'REB', 'AST', 'STL', 'BLK']]
-    target = ['Player']
+    if len(df) == 0:
+        print("Error: No samples in the data.")
+        return
 
-    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=42)
+    features = df[['Age', 'GP', 'W', 'L', 'Min', 'PTS', 'FG%', '3P%', 'FT%', 'REB', 'AST', 'STL', 'BLK']]
+    target = df['Player']
+
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.1, random_state=42)
 
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -132,7 +154,7 @@ def classification_joueurs(df):
     knn_model.fit(X_train, y_train)
     predictions = knn_model.predict(X_test)
     accuracy = accuracy_score(y_test, predictions)
-    report = classification_report(y_test, predictions)
+    report = classification_report(y_test, predictions, zero_division=1)
 
     print(f"Accuracy: {accuracy}")
     print("Classification Report:\n", report)
