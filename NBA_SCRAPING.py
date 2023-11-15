@@ -146,7 +146,7 @@ assemble_all_seasons_advanced()
 ### Classifications des joueurs ###
 def classification_joueurs(df):
     print(df['PTS'].describe())
-    df['Level'] = pd.cut(df['PTS'], bins=[0, 210, 1500, float('inf')], labels=['Faible', 'Moyen', 'Élevé'])
+    df['Level'] = pd.cut(df['PTS'], bins=[46, 208, 488, float('inf')], labels=['Faible', 'Moyen', 'Élevé'])
 
     features = df[['PTS', 'AST', 'REB']]
     target = df['Level']
