@@ -1,5 +1,8 @@
 #Xavier LEDUC @2023
 
+##### Analysis of NBA players over the last 10 years.
+##### It includes a linear regression model and classifications of players according to their actions in the game.
+
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -150,7 +153,7 @@ def classification_joueurs(df):
     print(df['PTS'].describe())
     df['Level'] = pd.cut(df['PTS'], bins=[46, 208, 488, float('inf')], labels=['Faible', 'Moyen', 'Élevé'])
 
-    features = df[['PTS', 'AST', 'REB']]
+    features = df[['FGM', '3PM', 'FTM', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV', 'PF']]
     target = df['Level']
 
     label_encoder = LabelEncoder()
