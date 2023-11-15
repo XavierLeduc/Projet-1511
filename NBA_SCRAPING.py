@@ -186,7 +186,15 @@ def assembly_by_player(df):
 
 ### Graphiques ###
 def graphiques(df):
-    return 0
+    df_classification = pd.read_csv('Classification_Players.csv')
+    sns.countplot(x='Level', data=df_classification)
+    plt.title("Répartition des joueurs selon leur niveau.")
+    plt.show()
+
+    pearson_correlation(df)
+
+    
+
 
 
 ### Classifications des joueurs ###
@@ -240,6 +248,9 @@ def pearson_correlation(df):
     for data in data_to_analyse:
         pearson_correlation = np.corrcoef(df['PTS'], df[data])[0, 1]
         print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
+
+    sns.heatmap(df.corr(), annot=True, color="warm")
+    plt.show()
 
 
 
