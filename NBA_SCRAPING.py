@@ -230,10 +230,10 @@ def analysis_shooting_percentages(df):
     print(f'R-squared: {r2}')
 
 
-    plt.scatter(y_test, y_pred)
+    plt.scatter(y_test, y_pred, s=1)
     plt.xlabel("Vraies valeurs")
     plt.ylabel("Prédictions")
-    plt.title("Régression linéaire simple par rapport aux points marqués selon l'attaque.")
+    plt.title("Régression linéaire des points selon le type d'attaque.")
     plt.show()
 
 
@@ -241,5 +241,5 @@ def analysis_shooting_percentages(df):
 df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
 #classification_joueurs(df)
 #pearson_correlation(df)
-#analysis_shooting_percentages(df)
+analysis_shooting_percentages(df)
 #assembly_by_player(df)
