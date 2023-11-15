@@ -247,8 +247,9 @@ def analysis_shooting_percentages(df):
 
 
 
-df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
+df = pd.read_csv('NBA_Stats_Advanced_2022-23.csv')
 #classification_joueurs(df)
+pearson_correlation(df)
 
 
 
