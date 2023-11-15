@@ -198,15 +198,13 @@ def classification_joueurs(df):
 
 
 def data_cleaning(df):
-    #surpprime les 26 dernières colonnes
-    df = df.iloc[:, :-26]
+    #df = df.iloc[:, :-26]
     df = df.dropna()
     return df
 
 
 def pearson_correlation(df):
     df = data_cleaning(df)
-
 
     data_to_analyse = ['OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV', 'PF']
     for data in data_to_analyse:
@@ -217,7 +215,6 @@ def pearson_correlation(df):
 
 def analysis_shooting_percentages(df):
     df = data_cleaning(df)
-    
     features = ['OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV', 'PF']
     target = ['PTS']
 
@@ -260,11 +257,11 @@ def assembly_by_player(df):
 
 
 
-df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
+df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
 #classification_joueurs(df)
-#pearson_correlation(df)
-#analysis_shooting_percentages(df)
-assembly_by_player(df)
+pearson_correlation(df)
+analysis_shooting_percentages(df)
+#assembly_by_player(df)
 
 
 
