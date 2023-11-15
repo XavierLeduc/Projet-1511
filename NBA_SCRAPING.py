@@ -37,6 +37,30 @@ from sklearn.metrics import accuracy_score, classification_report
 
 
 
+def menu():
+    while True:
+        print("1) Classification des joueurs.")
+        print("2) Modèle de prédiction.")
+        print("3) Corrélation de Paerson.")
+        print("4) Caractéristiques des données.")
+        print("5) Quitter le programme.")
+
+        choice = input("Choisissez une option: ")
+
+        choice = choice.strip()
+
+        if (choice == "1"):
+            classification_joueurs(df)
+        elif (choice == "2"):
+            analysis_shooting_percentages(df)
+        elif (choice == "3"):
+            pearson_correlation(df)
+        elif (choice == "4"):
+            print(df.describe())
+        elif (choice == "5"):
+            print("Au revoir.")
+            break
+
 
 
 #Parameters
@@ -239,7 +263,5 @@ def analysis_shooting_percentages(df):
 
 
 df = pd.read_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv')
-#classification_joueurs(df)
-#pearson_correlation(df)
-analysis_shooting_percentages(df)
-#assembly_by_player(df)
+
+menu()
