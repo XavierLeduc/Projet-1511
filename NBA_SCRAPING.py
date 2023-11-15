@@ -198,30 +198,27 @@ def classification_joueurs(df):
 
 
 def data_cleaning(df):
-    #supprime le noms des joueurs
-    df = df.drop(columns=['Player'])
-    #supprime les lignes vides
+    #surpprime les 26 dernières colonnes
+    df = df.iloc[:, :-26]
     df = df.dropna()
     return df
 
 
 def pearson_correlation(df):
     df = data_cleaning(df)
-    data_to_analyse = ['FGA', '3PA', 'FTA']
+
+
+    data_to_analyse = ['OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV', 'PF']
     for data in data_to_analyse:
         pearson_correlation = np.corrcoef(df['PTS'], df[data])[0, 1]
         print("Corrélation entre PTS et {} : {}".format(data, pearson_correlation))
-        correlation_matrix = np.corrcoef(df['PTS'], df[data])
-        plt.figure(figsize=(10,10))
-        sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f')
-        plt.show()
-
 
 
 
 def analysis_shooting_percentages(df):
     df = data_cleaning(df)
-    features = ['FGM', 'FGA', '3PM', '3PA', 'FTM', 'FTA', 'OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV']
+    
+    features = ['OREB', 'DREB', 'AST', 'STL', 'BLK', 'TOV', 'PF']
     target = ['PTS']
 
     X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.3, random_state=42)
@@ -242,14 +239,15 @@ def analysis_shooting_percentages(df):
     plt.scatter(y_test, y_pred)
     plt.xlabel("Vraies valeurs")
     plt.ylabel("Prédictions")
-    plt.title("Régression linéaire pour les tirs tentés")
+    plt.title("Régression linéaire simple par rapport aux points marqués selon l'attaque.")
     plt.show()
 
 
 
-df = pd.read_csv('NBA_Stats_Advanced_2022-23.csv')
+df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
 #classification_joueurs(df)
 pearson_correlation(df)
+analysis_shooting_percentages(df)
 
 
 
