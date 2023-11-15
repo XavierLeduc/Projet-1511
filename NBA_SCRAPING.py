@@ -143,7 +143,7 @@ def classification_joueurs(df):
     features = df[['Age', 'GP', 'W', 'L', 'Min', 'PTS', 'FG%', '3P%', 'FT%', 'REB', 'AST', 'STL', 'BLK']]
     target = df['Player']
 
-    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.1, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.3, random_state=42)
 
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -158,6 +158,10 @@ def classification_joueurs(df):
 
     print(f"Accuracy: {accuracy}")
     print("Classification Report:\n", report)
+    #affiche les 10 meilleurs joueurs
+    print("Les 10 meilleurs joueurs sont :")
+    print(df.sort_values(by=['PTS'], ascending=False).head(10))
+
 
 
 
@@ -216,7 +220,7 @@ def analysis_shooting_percentages(df):
 
 
 
-df = pd.read_csv('NBA_Stats_Advanced_2022-23.csv')
+df = pd.read_csv('NBA_Stats_Advanced_All_Seasons.csv')
 classification_joueurs(df)
 
 
