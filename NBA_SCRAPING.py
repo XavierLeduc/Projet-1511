@@ -43,9 +43,10 @@ def menu():
         print("2) Modèle de prédiction.")
         print("3) Corrélation de Paerson.")
         print("4) Caractéristiques des données.")
-        print("5) Quitter le programme.")
+        print("5) Graphiques.")
+        print("6) Quitter le programme.")
 
-        choice = input("Choisissez une option: ")
+        choice = input("Choisissez l'option: ")
 
         choice = choice.strip()
 
@@ -58,6 +59,8 @@ def menu():
         elif (choice == "4"):
             print(df.describe())
         elif (choice == "5"):
+            graphiques(df)
+        elif (choice == "6"):
             print("Au revoir.")
             break
 
@@ -178,6 +181,12 @@ def assembly_by_player(df):
     df_avg.to_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv', index=False)
 
 
+
+
+
+### Graphiques ###
+def graphiques(df):
+    return 0
 
 
 ### Classifications des joueurs ###
