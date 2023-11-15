@@ -143,7 +143,15 @@ def assemble_all_seasons_advanced():
         i += 1
     df_all.to_csv('NBA_Stats_Advanced_All_Seasons.csv', index=False)
 
-assemble_all_seasons_advanced()
+def assembly_by_player(df):
+    df = df.drop(['Unnamed: 0', 'Team', 'GP RANK', 'W RANK', 'L RANK', 'MIN RANK', 'PTS RANK', 'FGM RANK', 'FGA RANK',
+                'FG% RANK', '3PM RANK', '3PA RANK', '3P% RANK', 'FTM RANK', 'FTA RANK', 'FT% RANK', 'OREB RANK', 'DREB RANK',
+                'REB RANK', 'AST RANK', 'TOV RANK', 'STL RANK', 'BLK RANK', 'PF RANK', 'FP RANK', 'DD2 RANK', 'TD3 RANK', '+/- RANK', 'SEASON'],
+                axis=1)
+
+    df_avg = df.groupby('Player').mean().reset_index()
+
+    df_avg.to_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv', index=False)
 
 
 
@@ -192,9 +200,6 @@ def classification_joueurs(df):
 
 #### Modèle de prédiction ####
 
-
-
-
 def data_cleaning(df):
     #df = df.iloc[:, :-26]
     df = df.dropna()
@@ -241,15 +246,7 @@ def analysis_shooting_percentages(df):
 
 
 
-def assembly_by_player(df):
-    df = df.drop(['Unnamed: 0', 'Team', 'GP RANK', 'W RANK', 'L RANK', 'MIN RANK', 'PTS RANK', 'FGM RANK', 'FGA RANK',
-                'FG% RANK', '3PM RANK', '3PA RANK', '3P% RANK', 'FTM RANK', 'FTA RANK', 'FT% RANK', 'OREB RANK', 'DREB RANK',
-                'REB RANK', 'AST RANK', 'TOV RANK', 'STL RANK', 'BLK RANK', 'PF RANK', 'FP RANK', 'DD2 RANK', 'TD3 RANK', '+/- RANK', 'SEASON'],
-                axis=1)
 
-    df_avg = df.groupby('Player').mean().reset_index()
-
-    df_avg.to_csv('NBA_Stats_Advanced_Group_By_Player_All_Season.csv', index=False)
 
 
 
